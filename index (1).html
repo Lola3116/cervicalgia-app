@@ -1,0 +1,1465 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Evaluación Cervicalgia</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f2f2f2;
+        display: flex;
+        justify-content: center;
+        padding: 40px;
+      }
+
+      .container {
+        display: flex;
+        margin-top: 40px;
+        flex-direction: column; /* 🔥 esto los pone uno debajo del otro */
+        align-items: center; /* 🔥 centra todo */
+        justify-content: center;
+        gap: 20px; /* espacio entre tarjetas */
+      }
+
+      .card {
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .left {
+        background: linear-gradient(135deg, #4a90e2, #357abd);
+        color: white;
+        width: 380px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+
+      .right h2 {
+        color: white;
+        text-align: center;
+        font-weight: bold;
+        text-shadow:
+          1px 1px 0 #000,
+          -1px -1px 0 #000,
+          1px -1px 0 #000,
+          -1px 1px 0 #000;
+      }
+
+      h2 {
+        text-align: center;
+        font-weight: bold;
+        margin-top: 0;
+        color: white;
+        text-shadow:
+          1px 1px 0 #000,
+          -1px -1px 0 #000,
+          1px -1px 0 #000,
+          -1px 1px 0 #000;
+      }
+
+      label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+      }
+
+      input {
+        width: 90%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 2px solid black;
+        margin-top: 5px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .options {
+        margin-top: 10px;
+      }
+
+      .option {
+        display: inline-block;
+        padding: 8px 15px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        margin: 5px 5px 0 0;
+      }
+
+      .option.active {
+        background: #0d6efd;
+        color: white;
+      }
+
+      button {
+        margin-top: 20px;
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        background: #4a90e2;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+
+        /* delineado negro como los títulos */
+        text-shadow:
+          0.8px 0.8px 0 #000,
+          -0.8px -0.8px 0 #000,
+          0.8px -0.8px 0 #000,
+          -0.8px 0.8px 0 #000;
+      }
+      .titulo-caja {
+        display: block;
+        background: #4a90e2;
+        color: white;
+        margin-top: 0;
+        padding: 12px 150px;
+        border-radius: 12px;
+        font-size: 20px;
+        text-align: center;
+        margin: 0 auto 20px auto;
+        width: fit-content;
+
+        text-shadow:
+          0.8px 0.8px 0 #000,
+          -0.8px -0.8px 0 #000,
+          0.8px -0.8px 0 #000,
+          -0.8px 0.8px 0 #000;
+      }
+      .resultado-container {
+        align-items: center;
+        display: flex;
+        flex-direction: column; /* 🔥 esto es lo clave */
+        align-items: center; /* 🔥 centra todo */
+        gap: 20px; /* 🔥 ESTE ES EL QUE BAJA LA TARJETA DE ABAJO */
+      }
+
+      .resultado-izq,
+      .resultado-der {
+        background: white;
+        padding: 20px;
+        margin-top: 0px;
+        border-radius: 15px;
+        width: 400px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .resultado-izq {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px; /* 🔥 controla el espacio */
+        text-align: center;
+      }
+
+      .resultado-der ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .resultado-der li {
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+      .resultado-der ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .resultado-der li {
+        background: #28a745;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 10px;
+
+        font-size: 16px; /* 🔥 más grande */
+        font-weight: 600;
+
+        text-align: center;
+
+        border: 2px solid black;
+
+        text-shadow:
+          0.5px 0.5px 0 #000,
+          -0.5px -0.5px 0 #000;
+      }
+      .titulo-resumen {
+        display: block;
+        background: #28a745;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 12px;
+        width: fit-content;
+        margin: 0 auto 15px auto;
+        font-size: 20px;
+        font-weight: bold;
+
+        border: 2px solid black;
+
+        text-shadow:
+          0.6px 0.6px 0 #000,
+          -0.6px -0.6px 0 #000;
+      }
+      .riesgo-bajo {
+        display: block;
+        background: #28a745;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 12px;
+        width: fit-content;
+        margin: 15px auto;
+        font-size: 18px;
+        font-weight: bold;
+
+        border: 2px solid black;
+
+        text-align: center;
+
+        text-shadow:
+          0.6px 0.6px 0 #000,
+          -0.6px -0.6px 0 #000;
+      }
+      .mensaje-genial {
+        display: block;
+        background: #4a90e2;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 12px;
+        width: fit-content;
+        margin: 15px auto;
+        font-size: 22px;
+        font-weight: bold;
+        text-align: center;
+
+        border: 2px solid black;
+
+        text-shadow:
+          0.8px 0.8px 0 #000,
+          -0.8px -0.8px 0 #000;
+      }
+      .left,
+      .right {
+        width: 420px;
+      }
+      .resultado-der {
+        width: 450px;
+        background: white;
+        text-align: center;
+        padding: 20px;
+      }
+      .titulo-habitos {
+        margin-top: 20px;
+        background: #4a90e2;
+        color: white;
+        padding: 8px 18px;
+        border-radius: 10px;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+
+        border: 2px solid black;
+
+        text-shadow:
+          0.6px 0.6px 0 #000,
+          -0.6px -0.6px 0 #000;
+      }
+
+      .habitos-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 15px;
+      }
+
+      .habito {
+        background: #28a745;
+        color: white;
+        padding: 12px;
+        border-radius: 10px;
+        text-align: center;
+        font-weight: 600;
+
+        border: 2px solid black;
+
+        font-size: 16px; /* 🔥 más grande */
+      }
+      .habito {
+        font-size: 16px;
+      }
+
+      .habito::first-line {
+        font-size: 24px; /* 🔥 agranda el emoji */
+      }
+
+      .habito p {
+        margin-top: 5px;
+      }
+      .alerta {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #ff4d4d;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 10px;
+        font-weight: bold;
+        z-index: 1000;
+        text-align: center;
+
+        border: 2px solid black;
+
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+      .card-felicidades {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+
+        width: 100%;
+        max-width: 420px;
+
+        margin: 0 auto; /* 🔥 ESTO ES LA CLAVE */
+
+        box-shadow: none;
+      }
+      .titulo-felicidades {
+        text-align: center;
+        width: 100%;
+      }
+
+      .titulo-felicidades {
+        color: #28a745;
+        font-size: 28px;
+        margin-bottom: 10px;
+        font-weight: bold;
+
+        text-shadow:
+          1px 1px 0 #000,
+          -1px -1px 0 #000;
+      }
+
+      .nombre-persona {
+        color: #f1c40f;
+        font-size: 22px;
+        margin-bottom: 10px;
+        margin-top: 5px;
+
+        text-shadow: 1px 1px 0 #000;
+      }
+
+      .emoji-celebracion {
+        font-size: 50px;
+        margin: 15px 0;
+      }
+
+      .mensaje-riesgo {
+        background: white;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 15px;
+        font-size: 18px;
+        font-weight: bold;
+
+        border: 2px solid black;
+      }
+      .card-felicidades,
+      .habitos-container,
+      .resultado-der {
+        width: 100%;
+        margin-top: 30px;
+        max-width: 420px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .card-base {
+        width: min(420px, 100%);
+        margin: 0 auto; /* centra */
+        padding: 20px;
+        box-sizing: border-box; /* evita que padding rompa el ancho */
+      }
+      .card-felicidades {
+        background: #ffffff; /* 🔥 blanco puro */
+        border: none; /* 🔥 quita cualquier borde */
+        box-shadow: none; /* 🔥 ya lo quitamos */
+        padding: 20px;
+        border-radius: 0; /* 🔥 opcional: elimina borde redondeado */
+      }
+      .img-celebracion {
+        width: 220px;
+        max-width: 120%;
+        height: auto;
+        margin: 10px auto;
+        display: block;
+      }
+      .card-riesgo-alto {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        max-width: 420px;
+        margin: auto;
+      }
+
+      .nombre-persona {
+        font-size: 20px;
+        margin-top: -10px;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      .mensaje-riesgo {
+        margin: 10px 0;
+        font-weight: bold;
+      }
+
+      .espacio-imagen {
+        height: 120px;
+      }
+
+      .alerta {
+        background: red;
+        color: white;
+        border: 2px solid black;
+        padding: 10px;
+        margin-bottom: 10px;
+        margin: 10px 0;
+        font-weight: bold;
+      }
+
+      .titulo {
+        background: red;
+        color: white;
+        border: 2px solid black;
+        padding: 8px;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .item {
+        background: red;
+        color: white;
+        border: 2px solid black;
+        padding: 8px;
+      }
+
+      .btn {
+        margin-top: 15px;
+        padding: 10px;
+        width: 100%;
+        background: blue;
+        color: white;
+        border: none;
+        font-weight: bold;
+      }
+      .espacio-imagen {
+        margin: 20px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .img-alerta {
+        max-width: 70%;
+        height: auto;
+        margin-top: 10px;
+        border-radius: 15px;
+      }
+      .card-riesgo-alto {
+        padding: 30px 25px;
+        overflow: hidden;
+        padding-top: 15px;
+        text-align: center;
+      }
+
+      .titulo-riesgo {
+        background: #e74c3c;
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 16px;
+        margin-bottom: 15px;
+      }
+
+      .nombre-persona {
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      .mensaje-riesgo {
+        border: 2px solid black;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 10px auto;
+        position: relative;
+        margin-top: 35px;
+        z-index: 2;
+        margin-bottom: 40px; /* 👈 crea espacio real debajo del texto */
+        width: 80%;
+      }
+
+      .espacio-imagen {
+        margin: 15px 0;
+      }
+      .espacio-imagen img {
+        width: 180px; /* 👈 aquí ajustamos tamaño */
+        display: block;
+        margin: 0 auto;
+      }
+
+      .img-alerta {
+        max-width: 200px; /* antes 130-180 → ahora más grande */
+        height: auto;
+        display: block;
+        position: relative;
+        padding-bottom: 30px; /* 👈 ESTE ES EL SECRETO */
+        z-index: 1;
+        margin: 0 auto; /* 👈 quitamos márgenes raros */
+      }
+      .card-riesgo-alto .img-alerta {
+        margin-top: 10px;
+        margin-bottom: 20px;
+      }
+      .card-riesgo-alto .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 40px; /* antes 20-25 → ahora más abajo */
+      }
+      .card-riesgo-alto .btn {
+        margin-top: 35px;
+      }
+      .card-riesgo-alto .nombre-persona {
+        position: relative;
+        z-index: 10;
+        margin-top: 20px;
+        margin-bottom: 15px;
+      }
+      .card-riesgo-alto .habitos-grid {
+        margin-top: 40px; /* 👈 empuja los botones hacia abajo */
+      }
+
+      .card-riesgo-alto .habitos-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin: 15px 0;
+      }
+      .habitos-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 85px; /* 👈 ESTE es el ajuste clave */
+      }
+      .habitos-grid .item {
+        margin-top: 9px; /* 👈 micro empuje */
+      }
+
+      .card-riesgo-alto .habito {
+        background: #e74c3c;
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 13px;
+      }
+      .card-riesgo-alto ~ .resultado-der {
+        display: none;
+      }
+      .card-riesgo-alto .titulo-habitos-alerta {
+        background: #ff4d4d;
+        color: white;
+        padding: 12px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        width: 80%;
+        margin: 20px auto 15px auto;
+        border: 3px solid #111;
+        box-shadow: 0 4px 0 #111;
+      }
+      #plan-prevencion {
+        display: none;
+        padding: 30px;
+        text-align: center;
+      }
+
+      .titulo-prevencion {
+        background: #ef4b3f;
+        color: white;
+        padding: 15px;
+        border-radius: 15px;
+        width: 80%;
+        margin: auto;
+        margin-bottom: 30px;
+        font-size: 32px;
+        border: 3px solid #111;
+      }
+
+      .imagenes-prevencion {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        max-width: 900px;
+        margin: 30px auto;
+        justify-items: center;
+      }
+
+      #plan-prevencion .img-box {
+        width: 145px;
+        height: 125px;
+        border-radius: 20px;
+        overflow: hidden;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 4px;
+      }
+      #plan-prevencion .img-box img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+      .ultima-img {
+        grid-column: 1 / span 2;
+      }
+
+      #plan-prevencion .titulo-img {
+        background: white;
+        border: 2px solid #4a90e2;
+
+        border-radius: 12px;
+
+        padding: 10px;
+
+        margin-top: 12px;
+
+        color: black;
+        font-weight: bold;
+        text-align: center;
+
+        font-size: 13px;
+
+        width: 160px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        min-height: 55px;
+
+        box-sizing: border-box;
+      }
+
+      #plan-prevencion .img-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #plan-prevencion .img-card {
+        background: white;
+
+        border-radius: 18px;
+
+        padding: 15px;
+
+        width: 190px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        box-sizing: border-box;
+      }
+
+      #plan-prevencion .img-card img {
+        width: 100%;
+        height: auto;
+
+        border-radius: 10px;
+      }
+
+      #plan-prevencion .titulo-img {
+        margin-top: 10px;
+
+        background: white;
+
+        border: 2px solid #4a90e2;
+
+        border-radius: 12px;
+
+        padding: 10px;
+
+        width: 170px;
+
+        text-align: center;
+
+        font-weight: bold;
+
+        color: black;
+
+        font-size: 13px;
+
+        box-sizing: border-box;
+      }
+      #plan-prevencion .tarjeta-prevencion {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #plan-prevencion .imagen-prevencion {
+        background: white;
+
+        border-radius: 18px;
+
+        padding: 15px;
+
+        width: 190px;
+
+        box-sizing: border-box;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #plan-prevencion .imagen-prevencion img {
+        width: 100%;
+        border-radius: 10px;
+      }
+
+      #plan-prevencion .nombre-prevencion {
+        margin-top: 10px;
+
+        background: white;
+
+        border: 2px solid #4a90e2;
+
+        border-radius: 12px;
+
+        padding: 10px;
+
+        width: 170px;
+
+        text-align: center;
+
+        color: black;
+
+        font-weight: bold;
+
+        font-size: 13px;
+
+        box-sizing: border-box;
+      }
+
+      .banner-bienvenida {
+        width: 90%;
+        background: white;
+        border-radius: 25px;
+        padding: 30px;
+        margin-bottom: 35px;
+        left: -10px;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 700px;
+        position: relative;
+        top: -2px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      }
+
+      .banner-texto {
+        flex: 1;
+      }
+
+      .banner-texto h1 {
+        color: #1f3c88;
+        font-size: 34px;
+        margin-bottom: 15px;
+      }
+
+      .banner-texto p {
+        color: #555;
+        font-size: 18px;
+        line-height: 1.5;
+      }
+
+      .banner-imagen {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .banner-imagen img {
+        width: 320px;
+        max-width: 100%;
+      }
+
+      .texto-prevencion {
+        background: white;
+        border: 2px solid #3b82f6;
+        border-radius: 12px;
+        padding: 12px;
+        margin-top: 10px;
+        font-size: 13px;
+        line-height: 1.5;
+        text-align: left;
+        color: #222;
+        width: 230px;
+        box-sizing: border-box;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .tarjeta-prevencion {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 40px;
+      }
+
+      #visitor-widget {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border: 2px solid #3b82f6;
+        border-radius: 30px;
+        padding: 10px 16px;
+        font-size: 16px;
+        font-weight: bold;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 9999;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="visitor-widget">👁️ <span id="visitor-count">0</span></div>
+    <div id="alerta" class="alerta" style="display: none">
+      ⚠️ Por favor, complete todas las preguntas antes de continuar.
+    </div>
+    <div class="container">
+      <!-- IZQUIERDA -->
+      <div class="card left">
+        <div class="banner-bienvenida">
+          <div class="banner-texto">
+            <h1>¡Bienvenido a su evaluación contra la cervicalgia!</h1>
+
+            <p>
+              Esta evaluación preventiva le permitirá identificar posibles
+              factores de riesgo relacionados con la cervicalgia y fortalecer
+              hábitos saludables para su bienestar.
+            </p>
+          </div>
+
+          <div class="banner-imagen">
+            <img src="https://i.imgur.com/jjoIlJO.png" />
+          </div>
+        </div>
+        <h2>Datos Generales de la Persona</h2>
+
+        <p>Bienvenido a su evaluación contra la cervicalgia</p>
+
+        <label>Nombre y Apellido</label>
+        <input type="text" id="nombre" oninput="capitalizarNombre(this)" />
+
+        <label>Edad</label>
+        <input type="number" id="edad" />
+
+        <label>Ocupación</label>
+        <input type="text" id="ocupacion" oninput="capitalizarNombre(this)" />
+
+        <label>Dirección de vivienda</label>
+        <input type="text" id="direccion" oninput="capitalizarNombre(this)" />
+
+        <p style="margin-top: 15px">
+          Nuestro objetivo es ayudarte a mejorar su salud y bienestar de forma
+          clara, sencilla y efectiva.
+        </p>
+      </div>
+
+      <!-- DERECHA -->
+      <div class="card right">
+        <h2 class="titulo-caja">Factores de Riesgo</h2>
+
+        <label>¿Presenta sedentarismo en su rutina diaria?</label>
+        <div class="options">
+          <div class="option">Sí</div>
+          <div class="option">No</div>
+        </div>
+
+        <label>¿Cuántas horas al día utiliza dispositivos con pantalla?</label>
+        <div class="options">
+          <div class="option">Menos de 5 horas</div>
+          <div class="option">Más de 6 horas</div>
+        </div>
+
+        <label>¿Cómo considera actualmente su nivel de estrés?</label>
+        <div class="options">
+          <div class="option">Bajo</div>
+          <div class="option">Alto</div>
+        </div>
+
+        <label>¿Practica usted alguna actividad física o deporte?</label>
+        <input type="text" oninput="capitalizarNombre(this)" />
+
+        <label>¿Cuántas horas duerme usted diariamente?</label>
+        <div class="options">
+          <div class="option">Menos de 5 horas</div>
+          <div class="option">Más de 6 horas</div>
+        </div>
+
+        <label>¿Cuenta usted con un espacio ergonómico adecuado?</label>
+        <div class="options">
+          <div class="option">Sí</div>
+          <div class="option">No</div>
+        </div>
+
+        <label>¿Presenta usted dolor cervical de manera frecuente?</label>
+        <div class="options">
+          <div class="option">Sí</div>
+          <div class="option">No</div>
+        </div>
+
+        <label
+          >¿Durante sus actividades diarias realiza usted pausas activas?</label
+        >
+        <div class="options">
+          <div class="option">Sí</div>
+          <div class="option">No</div>
+        </div>
+
+        <label>¿Trabaja usted muchas horas sentad@?</label>
+        <div class="options">
+          <div class="option">Sí</div>
+          <div class="option">No</div>
+        </div>
+
+        <button onclick="evaluar()" class="btn">Siguiente</button>
+      </div>
+    </div>
+
+    <script>
+      // BOTONES
+      document.querySelectorAll(".option").forEach((option) => {
+        option.addEventListener("click", () => {
+          const group = option.parentElement;
+          group
+            .querySelectorAll(".option")
+            .forEach((el) => el.classList.remove("active"));
+          option.classList.add("active");
+        });
+      });
+
+      // EVALUAR
+      function evaluar() {
+        console.log("FUNCION EVALUAR EJECUTADA");
+        let incompleto = false;
+
+        // validar opciones
+        document.querySelectorAll(".options").forEach((group) => {
+          const active = group.querySelector(".active");
+          if (!active) {
+            incompleto = true;
+          }
+        });
+
+        // validar inputs
+        document
+          .querySelectorAll('input[type="text"], input[type="number"]')
+          .forEach((input) => {
+            if (input.value.trim() === "") {
+              incompleto = true;
+            }
+          });
+
+        if (incompleto) {
+          let alerta = document.getElementById("alerta");
+          alerta.style.display = "block";
+
+          setTimeout(() => {
+            alerta.style.display = "none";
+          }, 3000);
+          return;
+        }
+        let riesgo = 0;
+
+        let resumen = [];
+
+        document.querySelectorAll(".options").forEach((group) => {
+          const active = group.querySelector(".active");
+
+          if (active) {
+            let pregunta = group.previousElementSibling.innerText;
+            resumen.push(pregunta + ": " + active.innerText);
+
+            const texto = active.innerText.trim();
+            // condiciones malas específicas
+            if (
+              (pregunta.includes("sedentarismo") && texto === "Sí") ||
+              (pregunta.includes("pantalla") && texto === "Más de 6 horas") ||
+              (pregunta.includes("estrés") && texto === "Alto") ||
+              (pregunta.includes("duermes") && texto === "Menos de 5 horas") ||
+              (pregunta.includes("ergonómico") && texto === "No") ||
+              (pregunta.includes("dolor cervical") && texto === "Sí") ||
+              (pregunta.includes("pausas activas") && texto === "No") ||
+              (pregunta.includes("horas sentad@") && texto === "Sí")
+            ) {
+              riesgo++;
+            }
+          }
+        });
+        let nombre = document.getElementById("nombre").value;
+
+        console.log("RIESGO:", riesgo);
+        if (riesgo >= 3) {
+          let nombre = document.getElementById("nombre").value;
+
+          document.querySelector(".container").style.display = "none";
+          document.getElementById("resultado").style.display = "block";
+          document.querySelector(".resultado-der").style.display = "none";
+
+          window.scrollTo(0, 0);
+          document.activeElement.blur();
+
+          mostrarRiesgoAlto(nombre);
+          return;
+        }
+
+        document.querySelector(".container").style.display = "none";
+        document.getElementById("resultado").style.display = "block";
+        document.querySelector(".resultado-der").style.display = "block";
+
+        document.getElementById("nombre-persona").innerText = nombre;
+
+        let lista = document.getElementById("resumen-lista");
+        lista.innerHTML = "";
+      }
+      function mostrarRiesgoAlto(nombre) {
+        document.querySelector(".resultado-izq").innerHTML = `
+                      <div class="card-base card-riesgo-alto">
+
+              <h2 class="titulo-riesgo">¡NECESITAS ATENCIÓN PREVENTIVA!</h2>
+
+              <h2 class="nombre-persona">${nombre}</h2>
+
+      <div class="espacio-imagen">
+        <img src="https://i.imgur.com/UgKyVfV.jpeg">
+      </div>
+
+      <p class="mensaje-riesgo">
+       TUS POSIBILIDADES DE
+       PADECER CERVICALGIA SON ALTAS
+      </p>
+
+              <h3 class="titulo-habitos-alerta">
+                  Hábitos que mejorar
+              </h3>
+              <div class="habitos-container">
+                <div class="habito">📅 Solicitar cita médica</div>
+                <div class="habito">⏳ Pausas activas obligatorias</div>
+                <div class="habito">🪑 Corregir ergonomía</div>
+                <div class="habito">🛏️ Hábitos de sueño saludables</div>
+              </div>
+
+              <button class="btn" onclick="mostrarPlanPrevencion()">
+    PLAN DE PREVENCIÓN
+</button>
+
+            </div>
+                    `;
+
+        document.querySelector(".resultado-der").style.display = "none";
+        if (document.activeElement) {
+          document.activeElement.blur();
+        }
+
+        setTimeout(() => {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+          window.scrollTo(0, 0);
+        }, 300);
+      }
+      function mostrarPlanPrevencion() {
+        document.getElementById("resultado").style.display = "none";
+
+        document.getElementById("plan-prevencion").style.display = "block";
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+      function capitalizarNombre(input) {
+        let palabras = input.value.toLowerCase().split(" ");
+
+        for (let i = 0; i < palabras.length; i++) {
+          if (palabras[i].length > 0) {
+            palabras[i] =
+              palabras[i][0].toUpperCase() + palabras[i].substring(1);
+          }
+        }
+
+        input.value = palabras.join(" ");
+      }
+    </script>
+    <div id="resultado" style="display: none; margin-top: 30px">
+      <div class="resultado-container">
+        <div class="resultado-izq">
+          <div class="card-felicidades card-base">
+            <h2 class="titulo-felicidades">¡FELICITACIONES!</h2>
+
+            <h3 id="nombre-persona" class="nombre-persona"></h3>
+
+            <img
+              class="img-celebracion"
+              src="https://i.imgur.com/mcvxE2w.jpeg"
+              alt="celebración"
+            />
+
+            <div class="mensaje-riesgo">¡Tu riesgo de cervicalgia es bajo!</div>
+          </div>
+
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/845/845646.png"
+            width="120"
+            style="margin-top: -30px"
+          />
+
+          <div style="margin-top: 7px">
+            <h3>
+              Tu opinión es fundamental para seguir mejorando nuestro servicio
+            </h3>
+            <textarea
+              id="comentario"
+              placeholder="¿Cómo podemos mejorar?"
+              style="width: 80%"
+            ></textarea>
+            <div class="habitos-container card-base" style="margin-top: -25px">
+              <h3 class="titulo-habitos">Buenos hábitos que mantener</h3>
+
+              <div class="habitos-grid" style="margin-top: -9px">
+                <div class="habito">
+                  🧘‍♂️
+                  <p>Mantén tu rutina de ejercicio</p>
+                </div>
+
+                <div class="habito">
+                  ⏳
+                  <p>Pausas activas</p>
+                </div>
+
+                <div class="habito">
+                  🪑
+                  <p>Mantén tu ergonomía</p>
+                </div>
+
+                <div class="habito">
+                  🛌💤
+                  <p>Sueño reparador</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="resultado-der card-base">
+          <h3 class="titulo-resumen">
+            ¿Has necesitado nuestro plan de prevención?
+          </h3>
+
+          <ul id="resumen-lista"></ul>
+
+          <div style="margin-top: 10px">
+            <button
+              onclick="enviarComentario(true)"
+              style="
+                background: #4caf50;
+                color: white;
+                border: none;
+                margin-top: -9px;
+                padding: 12px 28px;
+                margin-right: 10px;
+                border-radius: 10px;
+                cursor: pointer;
+                font-size: 18px;
+                font-weight: bold;
+              "
+            >
+              Sí
+            </button>
+
+            <button
+              onclick="enviarComentario(false)"
+              style="
+                background: #9e9e9e;
+                color: white;
+                border: none;
+                margin-top: 7px;
+                padding: 12px 28px;
+                border-radius: 10px;
+                cursor: pointer;
+                font-size: 18px;
+                font-weight: bold;
+              "
+            >
+              No
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="plan-prevencion" style="display: none">
+      <h2 class="titulo-prevencion">PLAN DE PREVENCIÓN</h2>
+
+      <div class="imagenes-prevencion">
+        <!-- 1 -->
+        <div class="tarjeta-prevencion">
+          <div class="imagen-prevencion">
+            <img src="https://i.imgur.com/nbYLYMO.png" />
+          </div>
+
+          <div class="nombre-prevencion">
+            Ejercicios de movilidad y fortalecimiento
+          </div>
+          <div class="texto-prevencion">
+            Realiza diariamente ejercicios suaves para el cuello: flexión
+            cervical, rotación de cuello y estiramientos de la parte superior
+            del trapecio. Estos movimientos ayudan a mantener la flexibilidad,
+            reducir la rigidez y fortalecer la musculatura que sostiene la
+            cabeza.
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="tarjeta-prevencion">
+          <div class="imagen-prevencion">
+            <img src="https://i.imgur.com/FH4yYV8.png" />
+          </div>
+
+          <div class="nombre-prevencion">Ergonomía</div>
+          <div class="texto-prevencion">
+            Ajusta tu puesto de trabajo para mantener una postura saludable:
+            ·Coloca el monitor a nivel de tus ojos. · Mantén la espalda recta,
+            idealmente con un soporte lumbar. · Apoya los codos a 90 grados al
+            usar el teclado y el ratón.
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="tarjeta-prevencion">
+          <div class="imagen-prevencion">
+            <img src="https://i.imgur.com/VqmzSFB.png" />
+          </div>
+
+          <div class="nombre-prevencion">Pausas activas</div>
+          <div class="texto-prevencion">
+            Cada hora, dedica 60 segundos a mover tu cuerpo. Levántate, rota los
+            hombros y estira los brazos. Estas pequeñas pausas rompen la
+            sobrecarga estática y mejoran la circulación.
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="tarjeta-prevencion">
+          <div class="imagen-prevencion">
+            <img src="https://i.imgur.com/ur51hgb.png" />
+          </div>
+
+          <div class="nombre-prevencion">Higiene del sueño</div>
+          <div class="texto-prevencion">
+            Duerme en posiciones que respeten la curvatura natural de tu
+            columna: · Postura supina (boca arriba): usa una almohada cervical
+            que rellene el espacio sin elevar excesivamente la cabeza. · Postura
+            lateral (de lado): mantén la columna alineada; el cuello no debe
+            quedar torcido. Evita almohadas demasiado planas o altas que
+            provoquen tensión cervical.
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="tarjeta-prevencion">
+          <div class="imagen-prevencion">
+            <img src="https://i.imgur.com/ry74Jle.png" />
+          </div>
+
+          <div class="nombre-prevencion">Manejo del estrés y relajación</div>
+          <div class="texto-prevencion">
+            Practica la respiración diafragmática: inhala por la nariz y exhala
+            lentamente por la boca. Esta técnica reduce el ritmo cardíaco,
+            disminuye la tensión muscular acumulada en la zona cervical y
+            favorece la relajación general.
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="tarjeta-prevencion">
+          <div class="imagen-prevencion">
+            <img src="https://i.imgur.com/aVGTGpZ.png" />
+          </div>
+
+          <div class="nombre-prevencion">Terapias manuales y automasaje</div>
+          <div class="texto-prevencion">
+            Aplica liberación miofascial y automasaje suave en la zona de los
+            hombros y el cuello. Puedes usar tus dedos o una pelota de masaje
+            para aliviar puntos de tensión, siempre evitando presiones bruscas o
+            dolor intenso. El uso de compresas caseras: remojar una toalla en
+            agua tibia y colocar en zona cervical durante 10min.
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="tarjeta-prevencion">
+          <div class="imagen-prevencion">
+            <img src="https://i.imgur.com/LUDZixp.png" />
+          </div>
+
+          <div class="nombre-prevencion">
+            Uso correcto de dispositivos móviles
+          </div>
+          <div class="texto-prevencion">
+            Mantén una mirada al frente y evita la cabeza adelantada al usar el
+            teléfono o tableta. Eleva el dispositivo a la altura de los ojos, no
+            inclines el cuello hacia abajo, y realiza descansos frecuentes para
+            minimizar la carga sobre la columna cervical.
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 30px; margin-bottom: 30px">
+        <button
+          onclick="confirmarPlanPrevencion()"
+          style="
+            background: #2196f3;
+            color: white;
+            border: 2px solid black;
+            padding: 14px 40px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+          "
+        >
+          LISTO
+        </button>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script>
+      (function () {
+        emailjs.init({
+          publicKey: "VC-OhbnYidUBA7Ejv",
+        });
+      })();
+    </script>
+    <script>
+      function enviarComentario(necesitoPlan) {
+        const comentario = document.getElementById("comentario").value.trim();
+        const nombre = document.getElementById("nombre").value.trim();
+        const edad = document.getElementById("edad").value.trim();
+        const ocupacion = document.getElementById("ocupacion").value.trim();
+        const direccion = document.getElementById("direccion").value.trim();
+
+        if (!comentario) {
+          alert("Por favor escribe un comentario antes de enviar.");
+          return;
+        }
+
+        const decision = necesitoPlan
+          ? "Sí, realmente necesité el plan de prevención y me ha sido de gran ayuda. Muchas gracias."
+          : "No, en esta ocasión no necesité el plan de prevención. Muchas gracias por la evaluación realizada.";
+
+        emailjs
+          .send("service_cmmui6k", "template_d7rq5wo", {
+            name: nombre,
+            edad: edad,
+            ocupacion: ocupacion,
+            direccion: direccion,
+            message: comentario,
+            decision: decision,
+          })
+          .then(function (response) {
+            document.getElementById("comentario").value = "";
+            location.reload();
+          })
+          .catch(function (error) {
+            console.error("Error:", error);
+            alert("Hubo un error al enviar el comentario.");
+          });
+      }
+      function confirmarPlanPrevencion() {
+        const nombre = document.getElementById("nombre").value.trim();
+        const edad = document.getElementById("edad").value.trim();
+        const ocupacion = document.getElementById("ocupacion").value.trim();
+        const direccion = document.getElementById("direccion").value.trim();
+
+        emailjs
+          .send("service_cmmui6k", "template_d7rq5wo", {
+            name: nombre,
+            edad: edad,
+            ocupacion: ocupacion,
+            direccion: direccion,
+            decision:
+              "Ha confirmado que utilizará el plan de prevención recomendado.",
+          })
+          .then(function () {
+            location.reload();
+          })
+          .catch(function (error) {
+            console.error("Error:", error);
+            location.reload();
+          });
+      }
+      // Contador de visitantes únicos
+      async function updateVisitorCounter() {
+        try {
+          let visitors =
+            JSON.parse(localStorage.getItem("uniqueVisitors")) || [];
+
+          const userId =
+            navigator.userAgent +
+            Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+          if (!visitors.includes(userId)) {
+            visitors.push(userId);
+            localStorage.setItem("uniqueVisitors", JSON.stringify(visitors));
+          }
+
+          const counterElement = document.getElementById("visitor-count");
+          if (counterElement) {
+            counterElement.textContent = visitors.length;
+          }
+        } catch (error) {
+          console.error("Error con contador:", error);
+        }
+      }
+
+      updateVisitorCounter();
+    </script>
+  </body>
+</html>
