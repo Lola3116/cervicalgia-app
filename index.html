@@ -855,6 +855,115 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         z-index: 9999;
       }
+
+      /* ===========================
+         BOTÓN VER VIDEO
+      =========================== */
+
+      .boton-video {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        margin-top: 15px;
+
+        padding: 10px 18px;
+
+        background: #27ae60;
+
+        color: white;
+
+        font-weight: bold;
+
+        font-size: 14px;
+
+        border: none;
+
+        border-radius: 10px;
+
+        cursor: pointer;
+
+        transition: 0.25s;
+
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .boton-video:hover {
+        background: #219150;
+
+        transform: translateY(-2px);
+
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+      }
+
+      .boton-video:active {
+        transform: scale(0.96);
+      }
+
+      .boton-video span {
+        font-size: 18px;
+      }
+
+      /* =========================
+         POPUP DE VIDEO
+      ========================= */
+
+      .popup-video {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.55);
+        justify-content: center;
+        align-items: center;
+        z-index: 99999;
+      }
+
+      .popup-contenido {
+        background: #fff;
+        width: 90%;
+        max-width: 650px;
+        border-radius: 15px;
+        padding: 25px;
+        position: relative;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      .cerrar-popup {
+        position: absolute;
+        top: 12px;
+        right: 15px;
+
+        width: 36px;
+        height: 36px;
+
+        border: none;
+        border-radius: 50%;
+
+        background: transparent;
+
+        color: #444;
+
+        font-size: 26px;
+        font-weight: bold;
+
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        transition: 0.2s;
+      }
+
+      .cerrar-popup:hover {
+        background: #f2f2f2;
+        color: #d32f2f;
+      }
     </style>
   </head>
 
@@ -1254,6 +1363,12 @@
             reducir la rigidez y fortalecer la musculatura que sostiene la
             cabeza.
           </div>
+          <button
+            class="boton-video"
+            onclick="abrirPopup('Ejercicios de movilidad y fortalecimiento')"
+          >
+            ▶ Ver video
+          </button>
         </div>
 
         <!-- 2 -->
@@ -1269,6 +1384,9 @@
             idealmente con un soporte lumbar. · Apoya los codos a 90 grados al
             usar el teclado y el ratón.
           </div>
+          <button class="boton-video" onclick="abrirPopup('Ergonomía')">
+            ▶ Ver video
+          </button>
         </div>
 
         <!-- 3 -->
@@ -1283,6 +1401,9 @@
             hombros y estira los brazos. Estas pequeñas pausas rompen la
             sobrecarga estática y mejoran la circulación.
           </div>
+          <button class="boton-video" onclick="abrirPopup('Pausas activas')">
+            ▶ Ver video
+          </button>
         </div>
 
         <!-- 4 -->
@@ -1315,6 +1436,12 @@
             disminuye la tensión muscular acumulada en la zona cervical y
             favorece la relajación general.
           </div>
+          <button
+            class="boton-video"
+            onclick="abrirPopup('Manejo del estrés y relajación')"
+          >
+            ▶ Ver video
+          </button>
         </div>
 
         <!-- 6 -->
@@ -1331,6 +1458,12 @@
             dolor intenso. El uso de compresas caseras: remojar una toalla en
             agua tibia y colocar en zona cervical durante 10min.
           </div>
+          <button
+            class="boton-video"
+            onclick="abrirPopup('Terapias manuales y automasaje')"
+          >
+            ▶ Ver video
+          </button>
         </div>
 
         <!-- 7 -->
@@ -1348,6 +1481,12 @@
             inclines el cuello hacia abajo, y realiza descansos frecuentes para
             minimizar la carga sobre la columna cervical.
           </div>
+          <button
+            class="boton-video"
+            onclick="abrirPopup('Uso correcto de dispositivos móviles')"
+          >
+            ▶ Ver video
+          </button>
         </div>
       </div>
       <div style="text-align: center; margin-top: 30px; margin-bottom: 30px">
@@ -1459,7 +1598,100 @@
         }
       }
 
+      // ===============================
+      // POPUP DE VIDEOS
+      // ===============================
+
+      function abrirPopup(titulo) {
+        document.querySelector("#popupVideo h2").innerHTML = "🎥 " + titulo;
+
+        const popup = document.getElementById("popupVideo");
+
+        const iframe = document.getElementById("youtubeVideo");
+
+        const mensaje = document.getElementById("mensajeProximamente");
+
+        const videos = {
+          "Ejercicios de movilidad y fortalecimiento":
+            "https://www.youtube.com/embed/kAVtrNjq8Xs",
+
+          Ergonomía: "https://www.youtube.com/embed/0FCQt2EJo_s",
+
+          "Pausas activas": "https://www.youtube.com/embed/k5733Ns_kBE",
+
+          "Manejo del estrés y relajación":
+            "https://www.youtube.com/embed/j6k86fFrJdY",
+
+          "Terapias manuales y automasaje":
+            "https://www.youtube.com/embed/KzO-1PC47tk",
+
+          "Uso correcto de dispositivos móviles":
+            "https://www.youtube.com/embed/4emqFHqs8B4",
+        };
+
+        if (videos[titulo]) {
+          iframe.src = videos[titulo];
+
+          iframe.style.display = "block";
+
+          mensaje.style.display = "none";
+        } else {
+          iframe.src = "";
+
+          iframe.style.display = "none";
+
+          mensaje.style.display = "block";
+        }
+
+        popup.style.display = "flex";
+      }
+
+      function cerrarPopup() {
+        const popup = document.getElementById("popupVideo");
+
+        popup.style.display = "none";
+
+        const iframe = document.getElementById("youtubeVideo");
+
+        iframe.src = "";
+      }
+
       updateVisitorCounter();
     </script>
+    <!-- ===== POPUP DE VIDEO ===== -->
+
+    <div id="popupVideo" class="popup-video">
+      <div class="popup-contenido">
+        <button
+          class="cerrar-popup"
+          type="button"
+          onclick="cerrarPopup()"
+          aria-label="Cerrar"
+        >
+          ✕
+        </button>
+
+        <h2>🎥 Video explicativo</h2>
+
+        <div id="contenidoVideo">
+          <iframe
+            id="youtubeVideo"
+            width="100%"
+            height="350"
+            src=""
+            title="Video de prevención"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            style="display: none; border-radius: 12px"
+          >
+          </iframe>
+
+          <p id="mensajeProximamente" style="font-size: 18px; margin-top: 25px">
+            🚧 Próximamente estará disponible este video.
+          </p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
